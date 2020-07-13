@@ -1,11 +1,10 @@
 # <img src="https://github.com/pip-services/pip-services/raw/master/design/Logo.png" alt="Pip.Services Logo" style="max-width:30%"> <br/> Payroll checks microservice
 
 This is payroll checks microservice from Pip.Services library. 
-It stores customer payroll checks internally or in external PCI-complient service like Paypal
 
 The microservice currently supports the following deployment options:
-* Deployment platforms: Standalone Process, Seneca
-* External APIs: HTTP/REST, Seneca
+* Deployment platforms: Standalone Process, Seneca, Lambda
+* External APIs: HTTP/REST, Seneca, Lambda
 * Persistence: Flat Files, MongoDB
 
 This microservice has no dependencies on other microservices.
@@ -29,55 +28,48 @@ Logical contract of the microservice is presented below. For physical implementa
 please, refer to documentation of the specific protocol.
 
 ```typescript
-class AddressV1 {
-    public line1: string;
-    public line2?: string;
-    public city: string;
-    public postal_code?: string;
-    public postal_code?: string;
-    public country_code: string; // ISO 3166-1
-}
-
 class PayrollCheckV1 implements IStringIdentifiable {
     public id: string;
-    public customer_id: string;
+    public number?: string;
+    public party_id: string;
+    public state?: string;
+    public state_details?: string;
+
+    public period_from?: Date;
+    public period_to?: Date;
 
     public create_time?: Date;
     public update_time?: Date;
+    public paid_time?: Date;
     
-    public type?: string;
-    public number?: string;
-    public expire_month?: number;
-    public expire_year?: number;
-    public first_name?: string;
-    public last_name?: string;
-    public billing_address?: AddressV1;
-    public state?: string;
-    public ccv?: string;
+    public payment_method_id?: string;
+    public payment_id?: string;
+    public check_number?: string;
+    
+    public income?: IncomeItemV1[];
+    public income_total: number;
+    public ytd_income_total?: number;
 
-    public name?: string;
-    public saved?: boolean;
-    public default?: boolean;
-}
+    public deductions?: DeductionItemV1[];
+    public deductions_total?: number;
+    public ytd_deductions_total?: number;
 
-class PayrollCheckTypeV1 {
-    public static readonly Visa = "visa";
-    public static readonly Mastercheck = "mastercheck";
-    public static readonly AmericanExpress = "amex";
-    public static readonly Discover = "discover";
-    public static readonly Maestro = "maestro";
+    public net_total: number;
+    public ytd_net_total?: number;
 }
 
 class PayrollCheckStateV1 {
-    public static Ok: string = "ok";
-    public static Expired: string = "expired";
+    public static New: string = "new";
+    public static Canceled: string = "canceled";
+    public static Paid: string = "paid";
+    public static Failed: string = "failed";
 }
 
 interface IPayrollChecksV1 {
     getChecks(correlationId: string, filter: FilterParams, paging: PagingParams, 
         callback: (err: any, page: DataPage<PayrollCheckV1>) => void): void;
 
-    getCheckById(correlationId: string, check_id: string, 
+    getCheckById(correlationId: string, check_id: string,
         callback: (err: any, check: PayrollCheckV1) => void): void;
 
     createCheck(correlationId: string, check: PayrollCheckV1, 
@@ -190,24 +182,32 @@ Now the client is ready to perform operations
 ```javascript
 // Create a new payroll_check
 var payroll_check = {
-    customer_id: '1',
-    type: 'visa',
-    number: '1111111111111111',
-    expire_month: 1,
-    expire_year: 2021,
-    first_name: 'Bill',
-    last_name: 'Gates',
-    billing_address: {
-        line1: '2345 Swan Rd',
-        city: 'Tucson',
-        postal_code: '85710',
-        country_code: 'US'
-    },
-    ccv: '213',
-    name: 'Test Check 1',
-    saved: true,
-    default: true,
-    state: 'ok'
+    id: '2',
+    party_id: '2',
+    income: [
+        {
+            description: 'task 3',
+            total: 700,
+            hours: 50,
+            rate: 14
+        },
+        {
+            description: 'task 4',
+            total: 1680,
+            hours: 120,
+            rate: 14
+        },
+    ],
+    deductions: [
+        {
+            description: 'commission 5',
+            total: 35,
+            ytd_total: 5
+        }
+    ],
+    state: PayrollCheckStateV1.New,
+    income_total: 0,
+    net_total: 2340
 };
 
 client.createCheck(
@@ -220,12 +220,12 @@ client.createCheck(
 ```
 
 ```javascript
-// Get the list of payroll_checks on 'time management' topic
+// Get the list of payroll_checks
 client.getChecks(
     null,
     {
-        customer_id: '1',
-        state: 'ok'
+        party_id: '2',
+        state: PayrollCheckStateV1.New
     },
     {
         total: true,
@@ -240,4 +240,4 @@ client.getChecks(
 
 ## Acknowledgements
 
-This microservice was created and currently maintained by *Sergey Seroukhov*.
+This microservice was created and currently maintained by *Denis Kuznetsov*.

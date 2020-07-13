@@ -1,1 +1,1 @@
-// export { PayrollChecksServiceFactory } from './PayrollChecksServiceFactory';
+export { PayrollChecksServiceFactory } from './PayrollChecksServiceFactory';

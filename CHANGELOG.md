@@ -1,6 +1,6 @@
 # Payroll Checks Microservice ChangeLog
 
-## <a name="1.0.0"></a> 1.0.0 (2018-01-16)
+## <a name="1.0.0"></a> 1.0.0 (2020-07-13)
 
 ### Features
 * **MongoDB** data access using Mongoose framework

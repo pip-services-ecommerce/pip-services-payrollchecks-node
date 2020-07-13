@@ -1,2 +1,2 @@
-// export { IPayrollChecksController } from './IPayrollChecksController';
-// export { PayrollChecksController } from './PayrollChecksController';
+export { IPayrollChecksController } from './IPayrollChecksController';
+export { PayrollChecksController } from './PayrollChecksController';

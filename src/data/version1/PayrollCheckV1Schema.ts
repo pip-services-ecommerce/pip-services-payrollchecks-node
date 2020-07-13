@@ -29,10 +29,10 @@ export class PayrollCheckV1Schema extends ObjectSchema {
         this.withOptionalProperty('ytd_income_total', TypeCode.Float);
 
         this.withOptionalProperty('deductions', new ArraySchema(new IncomeItemV1Schema()));
-        this.withRequiredProperty('deductions_total', TypeCode.Float);
+        this.withOptionalProperty('deductions_total', TypeCode.Float);
         this.withOptionalProperty('ytd_deductions_total', TypeCode.Float);
 
-        this.withOptionalProperty('net_total', TypeCode.Float);
-        this.withRequiredProperty('ytd_net_total', TypeCode.Float);
+        this.withRequiredProperty('net_total', TypeCode.Float);
+        this.withOptionalProperty('ytd_net_total', TypeCode.Float);
     }
 }

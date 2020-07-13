@@ -8,7 +8,7 @@ export interface IPayrollChecksController {
     getChecks(correlationId: string, filter: FilterParams, paging: PagingParams, 
         callback: (err: any, page: DataPage<PayrollCheckV1>) => void): void;
 
-    getCheckById(correlationId: string, check_id: string, customer_id: string,
+    getCheckById(correlationId: string, check_id: string,
         callback: (err: any, check: PayrollCheckV1) => void): void;
 
     createCheck(correlationId: string, check: PayrollCheckV1, 
@@ -17,6 +17,6 @@ export interface IPayrollChecksController {
     updateCheck(correlationId: string, check: PayrollCheckV1, 
         callback: (err: any, check: PayrollCheckV1) => void): void;
 
-    deleteCheckById(correlationId: string, check_id: string, customer_id: string,
+    deleteCheckById(correlationId: string, check_id: string,
         callback: (err: any, check: PayrollCheckV1) => void): void;
 }

@@ -1,2 +1,2 @@
-// export { PayrollChecksProcess } from './PayrollChecksProcess';
-// export { PayrollChecksLambdaFunction } from './PayrollChecksLambdaFunction';
+export { PayrollChecksProcess } from './PayrollChecksProcess';
+export { PayrollChecksLambdaFunction } from './PayrollChecksLambdaFunction';
