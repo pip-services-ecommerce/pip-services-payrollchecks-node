@@ -26,7 +26,10 @@ export class TestModel {
             ],
 
             state: PayrollCheckStateV1.Paid,
+
             paid_time: new Date(2020, 6, 2),
+            period_from: new Date(2020, 5, 1),
+            period_to: new Date(2020, 5, 31),
 
             income_total: 145,
             net_total: 0
@@ -59,6 +62,10 @@ export class TestModel {
                 }
             ],
             state: PayrollCheckStateV1.New,
+            
+            period_from: new Date(2020, 2, 1),
+            period_to: new Date(2020, 2, 29),
+
             income_total: 0,
             net_total: 2340
         });
@@ -90,6 +97,10 @@ export class TestModel {
                 }
             ],
             state: PayrollCheckStateV1.New,
+            
+            period_from: new Date(2020, 3, 1),
+            period_to: new Date(2020, 3, 31),
+
             income_total: 145,
             deductions_total: 15,
             net_total: 0

@@ -21,8 +21,8 @@ Get payroll checks by filter
     - ids: string - (optional) list of unique check ids 
     - state: string - (optional) check state (PayrollCheckStateV1)
     - party_id: string - (optional) check reference party id
-    - from_time: Date - (optional)  checks with creation time greater than specified
-    - to_time: Date - (optional) checks with creation time less than specified
+    - from_time: Date - (optional)  checks whose periods are in the range from_time - to_time
+    - to_time: Date - (optional) checks whose periods are in the range from_time - to_time
 - paging: Object
   - skip: int - (optional) start of page (default: 0). Operation returns paged result
   - take: int - (optional) page length (max: 100). Operation returns paged result

@@ -28,10 +28,10 @@ class PayrollChecksMongoDbPersistence extends pip_services3_mongodb_node_1.Ident
             criteria.push({ party_id: partyId });
         let from_time = filter.getAsNullableDateTime('from_time');
         if (from_time != null)
-            criteria.push({ create_time: { $gte: from_time } });
+            criteria.push({ period_to: { $not: { $lt: from_time } } });
         let to_time = filter.getAsNullableDateTime('to_time');
         if (to_time != null)
-            criteria.push({ create_time: { $lte: to_time } });
+            criteria.push({ period_from: { $not: { $gt: to_time } } });
         return criteria.length > 0 ? { $and: criteria } : null;
     }
     getPageByFilter(correlationId, filter, paging, callback) {

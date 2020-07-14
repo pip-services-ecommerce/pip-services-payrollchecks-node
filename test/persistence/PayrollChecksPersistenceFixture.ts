@@ -207,6 +207,44 @@ export class PayrollChecksPersistenceFixture {
                     }
                 );
             },
+            // Get all payroll checks by period
+            (callback) => {
+                this._persistence.getPageByFilter(
+                    null,
+                    FilterParams.fromValue({
+                        from_time: new Date(2020, 1, 15),
+                        to_time: new Date(2020, 8, 15),
+                    }),
+                    new PagingParams(),
+                    (err, page) => {
+                        assert.isNull(err);
+
+                        assert.isObject(page);
+                        assert.lengthOf(page.data, 3);
+
+                        callback();
+                    }
+                );
+            },
+            // Get one payroll check by period
+            (callback) => {
+                this._persistence.getPageByFilter(
+                    null,
+                    FilterParams.fromValue({
+                        from_time: new Date(2020, 4, 15),
+                        to_time: new Date(2020, 7, 15),
+                    }),
+                    new PagingParams(),
+                    (err, page) => {
+                        assert.isNull(err);
+
+                        assert.isObject(page);
+                        assert.lengthOf(page.data, 1);
+
+                        callback();
+                    }
+                );
+            },
         ], done);
     }
 

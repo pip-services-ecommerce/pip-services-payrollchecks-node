@@ -39,9 +39,9 @@ class PayrollChecksMemoryPersistence extends pip_services3_data_node_1.Identifia
                 return false;
             if (partyId && item.party_id != partyId)
                 return false;
-            if (from_time && item.create_time && item.create_time < from_time)
+            if (from_time && item.period_to && from_time > item.period_to)
                 return false;
-            if (to_time && item.create_time && item.create_time > to_time)
+            if (to_time && item.period_from && to_time < item.period_from)
                 return false;
             return true;
         };
